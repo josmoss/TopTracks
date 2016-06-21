@@ -10,27 +10,88 @@ import UIKit
 
 class APIController: NSObject {
     
+    // MARK - Create a session constant
     let session = NSURLSession.sharedSession()
     
-    func fetchAlbums(artistID: String) {
+    // MARK - Fetch the Related Artists from the Web API
+    func fetchRelatedArists(artistID: String) {
         
-        let urlString = "https://api.spotify.com/v1/artists/\(artistID)/albums"
+        // 1. Insert the URLString for the API Call
+        let urlString = "https://api.spotify.com/v1/artists/\(artistID)/related-artists"
+//        print(urlString)
         
-        print(urlString)
-        
+        // 2. Attempt to create a valid NSURL from the string
         if let url = NSURL(string: urlString) {
             
+            // 3. Create a Data Task for pulling the data from the URL
             let task = session.dataTaskWithURL(url, completionHandler: {
                 (data, response, error) in
                 
+                // 4. Check if there is an error
                 if error != nil {
                     print(error?.localizedDescription)
                     return
                 }
                 
+                // 5. Parse JSON
                 if let jsonDictionary = self.parseJSON(data) {
-                   
+//                    print(jsonDictionary)
+                    
+                    if let relatedArtistArray = jsonDictionary["artists"] as? JSONArray {
+//                        print(relatedArtistArray)
+                        
+                        for itemDict in relatedArtistArray {
+                            
+                            let theRelatedArtist = RelatedArtist (dict: itemDict)
+                            
+                            print(theRelatedArtist.name)
+                            print(theRelatedArtist.relatedID)
+                            
+                            DataStore.sharedInstance.addRelatedArtist(theRelatedArtist)
+                            
+                        }
+                        
+                    } else {
+                        print("I could not parse the related artists array")
+                    }
+                    
+                } else {
+                    print("I could not parse the dictionary")
+                }
+                
+            })
+            task.resume()
+            
+        }
+        
+    }
+    
+    // MARK - Fetch the Albums from the Web API
+    func fetchAlbums(artistID: String) {
+        
+        // 1. Insert the URLString for the API Call
+        let urlString = "https://api.spotify.com/v1/artists/\(artistID)/albums"
+//        print(urlString)
+        
+        // 2. Attempt to create a valid NSURL from the string
+        if let url = NSURL(string: urlString) {
+            
+            // 3. Create a Data Task for pulling the data from the URL
+            let task = session.dataTaskWithURL(url, completionHandler: {
+                (data, response, error) in
+                
+                // 4. Check if there is an error
+                if error != nil {
+                    print(error?.localizedDescription)
+                    return
+                }
+                
+                // 5. Parse JSON
+                if let jsonDictionary = self.parseJSON(data) {
+//                    print(jsonDictionary)
+                    
                     if let itemsArray = jsonDictionary["items"] as? JSONArray {
+//                        print(itemsArray)
                         
                         for itemDict in itemsArray {
                             
@@ -57,19 +118,26 @@ class APIController: NSObject {
         }
     }
 
+    // MARK - Fetch the Top Tracks from the Web API
     func fetchTopTracks(artistID: String) {
         
+        // 1. Insert the URLString for the API Call
         let urlString = "https://api.spotify.com/v1/artists/\(artistID)/top-tracks?country=US"
+//        print(urlString)
         
+        // 2. Attempt to create a valid NSURL from the string
         if let url = NSURL(string: urlString) {
             
+            // 3. Create a Data Task for pulling the data from the URL
             let task = session.dataTaskWithURL(url, completionHandler: { (data, response, error) in
                 
+                // 4. Check if there is an error
                 if error != nil {
                     print(error?.localizedDescription)
                     return
                 }
                 
+                // 5. Parse JSON
                 if let jsonDictionary = self.parseJSON(data) {
 //                        print(jsonDictionary)
                     if let tracksArray = jsonDictionary["tracks"] as? JSONArray {
@@ -99,28 +167,34 @@ class APIController: NSObject {
         }
     }
 
-    // Fetch the Artists from the Web API
+    // MARK - Fetch the Artists from the Web API
     func fetchArtists(query: String) {
-        
+
+        // 1. Insert the URLString for the API Call
         let urlString = "https://api.spotify.com/v1/search?q=\(query)&type=artist"
+//        print(urlString)
         
-        print(urlString)
-        
+        // 2. Attempt to create a valid NSURL from the string
         if let url = NSURL(string: urlString) {
             
+            // 3. Create a Data Task for pulling the data from the URL
             let task = session.dataTaskWithURL(url, completionHandler: { (data, response, error) in
                 
+                // 4. Check if there is an error
                 if error != nil {
                     print(error?.localizedDescription)
                     return
                 }
                 
+                // 5. Parse JSON
                 if let jsonDictionary = self.parseJSON(data){
-                    print(jsonDictionary)
+//                    print(jsonDictionary)
                     
                     if let artistsDict = jsonDictionary["artists"] as? JSONDictionary {
                         
+                        
                         if let itemsArray = artistsDict["items"] as? JSONArray {
+//                            print(itemsArray)
                             
                             for itemDict in itemsArray {
                                 
@@ -148,6 +222,7 @@ class APIController: NSObject {
         }
     }
     
+    // MARK - Send the NSData and retreive a JSONDictionary
     func parseJSON(data: NSData?) -> JSONDictionary? {
         
         var theDictionary : JSONDictionary? = nil
@@ -179,7 +254,5 @@ class APIController: NSObject {
         
         return theDictionary
     }
-    
-
 
 }

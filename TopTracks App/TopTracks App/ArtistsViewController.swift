@@ -13,8 +13,8 @@ class ArtistsViewController: UIViewController, UITableViewDelegate, UITableViewD
     let apiController = APIController()
     
     override func viewDidLoad() {
-//        self.apiController.fetchArtists("u2")
-        self.apiController.fetchAlbums("3vDpQbGnzRbRVirXlfQagB")
+//        self.apiController.fetchRelatedArists("u2")
+        self.apiController.fetchRelatedArists("3vDpQbGnzRbRVirXlfQagB")
 
     }
     
