@@ -10,57 +10,94 @@ import UIKit
 
 class APIController: NSObject {
     
-    //create a session constant
     let session = NSURLSession.sharedSession()
     
-    // Fetch the Tracks from the Web API
-    func fetchTopTracks(artistID: String) {
-        // 1. Put URLString from web
-        let urlString = "https://api.spotify.com/v1/artists/\(artistID)/top-tracks?country=US"
+    func fetchAlbums(artistID: String) {
         
+        let urlString = "https://api.spotify.com/v1/artists/\(artistID)/albums"
         
-        // 2. create url
+        print(urlString)
+        
         if let url = NSURL(string: urlString) {
             
-            // 3. create a data task for pulling the data from the URL
-                let task = session.dataTaskWithURL(url, completionHandler: { (data, response, error) in
-                    
-                    // Check if there is an error
-                    if error != nil {
-                        print(error?.localizedDescription)
-                        return
-                    }
-                    
-                    // parse the JSON
-                    
-                    if let jsonDictionary = self.parseJSON(data) {
-//                        print(jsonDictionary)
-                        if let tracksArray = jsonDictionary["tracks"] as? JSONArray {
-//                            print(tracksArray)
-                            
-                            for tracksDict in tracksArray {
-                                
-                                let theTrack = Track(dict: tracksDict)
-                                
-                                print(theTrack.name)
-                                print(theTrack.previewURL)
-                                
-                                DataStore.sharedInstance.addTrack(theTrack)
-                                
-                            }
-                        } else {
-                            print("I could not parse the tracks Array")
-                        }
-                        
-                    } else {
-                        print("I could not parse the dictionary")
-                    }
-                    
-                })
-                task.resume()
+            let task = session.dataTaskWithURL(url, completionHandler: {
+                (data, response, error) in
                 
+                if error != nil {
+                    print(error?.localizedDescription)
+                    return
+                }
+                
+                if let jsonDictionary = self.parseJSON(data) {
+                   
+                    if let itemsArray = jsonDictionary["items"] as? JSONArray {
+                        
+                        for itemDict in itemsArray {
+                            
+                            let theAlbum = Album(dict: itemDict)
+                            
+                            print(theAlbum.name)
+                            print(theAlbum.albumID)
+                            
+                            DataStore.sharedInstance.addAlbum(theAlbum)
+                            
+                        }
+                    } else {
+                        print("I could not parse the albums Array")
+                    }
+                    
+                } else {
+                    print("I could not parse the dictionary")
+                }
+                
+            })
+            task.resume()
+            
+            
         }
-}
+    }
+
+    func fetchTopTracks(artistID: String) {
+        
+        let urlString = "https://api.spotify.com/v1/artists/\(artistID)/top-tracks?country=US"
+        
+        if let url = NSURL(string: urlString) {
+            
+            let task = session.dataTaskWithURL(url, completionHandler: { (data, response, error) in
+                
+                if error != nil {
+                    print(error?.localizedDescription)
+                    return
+                }
+                
+                if let jsonDictionary = self.parseJSON(data) {
+//                        print(jsonDictionary)
+                    if let tracksArray = jsonDictionary["tracks"] as? JSONArray {
+//                            print(tracksArray)
+                        
+                        for tracksDict in tracksArray {
+                            
+                            let theTrack = Track(dict: tracksDict)
+                            
+                            print(theTrack.name)
+                            print(theTrack.previewURL)
+                            
+                            DataStore.sharedInstance.addTrack(theTrack)
+                            
+                        }
+                    } else {
+                        print("I could not parse the tracks Array")
+                    }
+                    
+                } else {
+                    print("I could not parse the dictionary")
+                }
+                
+            })
+            task.resume()
+            
+        }
+    }
 
     // Fetch the Artists from the Web API
     func fetchArtists(query: String) {

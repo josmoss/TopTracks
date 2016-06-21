@@ -18,6 +18,8 @@
 		D823901F1D1850AC002C2488 /* Track.swift in Sources */ = {isa = PBXBuildFile; fileRef = D823901E1D1850AC002C2488 /* Track.swift */; };
 		D82390211D1858E1002C2488 /* APIController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D82390201D1858E1002C2488 /* APIController.swift */; };
 		D82390231D185980002C2488 /* DataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = D82390221D185980002C2488 /* DataStore.swift */; };
+		D82390251D1899FB002C2488 /* Album.swift in Sources */ = {isa = PBXBuildFile; fileRef = D82390241D1899FB002C2488 /* Album.swift */; };
+		D82390271D18AF28002C2488 /* AlbumsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D82390261D18AF28002C2488 /* AlbumsViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +36,8 @@
 		D823901E1D1850AC002C2488 /* Track.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Track.swift; sourceTree = "<group>"; };
 		D82390201D1858E1002C2488 /* APIController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIController.swift; sourceTree = "<group>"; };
 		D82390221D185980002C2488 /* DataStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataStore.swift; sourceTree = "<group>"; };
+		D82390241D1899FB002C2488 /* Album.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Album.swift; sourceTree = "<group>"; };
+		D82390261D18AF28002C2488 /* AlbumsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlbumsViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,6 +96,7 @@
 			children = (
 				D82390041D184E48002C2488 /* ArtistsViewController.swift */,
 				D82390141D184EF6002C2488 /* TracksViewController.swift */,
+				D82390261D18AF28002C2488 /* AlbumsViewController.swift */,
 				D82390201D1858E1002C2488 /* APIController.swift */,
 			);
 			name = Controllers;
@@ -109,6 +114,7 @@
 			children = (
 				D823901C1D18509B002C2488 /* Artist.swift */,
 				D823901E1D1850AC002C2488 /* Track.swift */,
+				D82390241D1899FB002C2488 /* Album.swift */,
 				D82390221D185980002C2488 /* DataStore.swift */,
 			);
 			name = Models;
@@ -189,7 +195,9 @@
 				D82390231D185980002C2488 /* DataStore.swift in Sources */,
 				D82390151D184EF6002C2488 /* TracksViewController.swift in Sources */,
 				D82390051D184E48002C2488 /* ArtistsViewController.swift in Sources */,
+				D82390271D18AF28002C2488 /* AlbumsViewController.swift in Sources */,
 				D82390031D184E48002C2488 /* AppDelegate.swift in Sources */,
+				D82390251D1899FB002C2488 /* Album.swift in Sources */,
 				D823901D1D18509B002C2488 /* Artist.swift in Sources */,
 				D82390191D184FA4002C2488 /* Constants.swift in Sources */,
 				D823901F1D1850AC002C2488 /* Track.swift in Sources */,
@@ -342,6 +350,7 @@
 				D82390131D184E48002C2488 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

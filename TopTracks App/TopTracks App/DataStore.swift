@@ -15,6 +15,7 @@ class DataStore: NSObject {
     
     var artistArray = [Artist]()
     var tracksArray = [Track]()
+    var albumsArray = [Album]()
     
     func addArtist(theArtist: Artist) {
         self.artistArray.append(theArtist)
@@ -22,6 +23,10 @@ class DataStore: NSObject {
     
     func addTrack(theTrack : Track) {
         self.tracksArray.append(theTrack)
+    }
+    
+    func addAlbum(theAlbum : Album) {
+        self.albumsArray.append(theAlbum)
     }
     
 }
